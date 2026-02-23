@@ -1,5 +1,7 @@
 
 let colorCreate=(req,res)=>{
+
+
     let obj={
         _status:true,
         _message:"Controller Function | Color Added"
@@ -8,6 +10,8 @@ let colorCreate=(req,res)=>{
 }
 
 let colorView=(req,res)=>{
+
+    
     let obj={
         _status:true,
         _message:"Color View"
