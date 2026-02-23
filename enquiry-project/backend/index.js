@@ -10,7 +10,7 @@ App.use(express.json())
 
 App.post('/enquiry/create',async (req,res)=>{
 
-    let db=await dbConnection()
+    let db=await dbConnection()  
     let studentConnection=await db.createCollection(process.env.STUDENTCOLLECTION)
 
     let {enPhone,enEmail}=req.body
