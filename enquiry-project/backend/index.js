@@ -102,6 +102,22 @@ App.put('/enquiry/update/:id',async (req,res)=>{
 
 
 })
+
+
+
+App.get('/enquiry/view/:id',async (req,res)=>{
+     let {id}=req.params
+    let db=await dbConnection()
+    let studentConnection=await db.collection(process.env.STUDENTCOLLECTION)
+    let data=await studentConnection.findOne({_id:new ObjectId(id)})
+     let obj={
+        _status:true,
+        _message:"Enquiry Found",
+         data
+    }
+    res.send(obj)
+
+})
 App.listen(process.env.PORT || 8000,()=>{
     console.log(process.env.PORT);
     
