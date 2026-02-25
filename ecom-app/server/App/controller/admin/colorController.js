@@ -1,20 +1,31 @@
+const colorModel = require("../../model/colorModel")
 
-let colorCreate=(req,res)=>{
+let colorCreate=async (req,res)=>{
 
+
+    // console.log(req.body);
+
+    // let insertObj={
+    //     name:req.body.name
+    // }
+    
+    let color=await colorModel.insertOne(req.body) //
 
     let obj={
         _status:true,
-        _message:"Controller Function | Color Added"
+        _message:"Controller Function | Color Added",
+        color
     }
     res.send(obj)
 }
 
-let colorView=(req,res)=>{
+let colorView=async (req,res)=>{
 
-    
+    let data=await colorModel.find()
     let obj={
         _status:true,
-        _message:"Color View"
+        _message:"Color View",
+        data
     }
     res.send(obj)
 }

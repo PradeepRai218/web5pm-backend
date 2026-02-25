@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 let express=require("express")
 require("dotenv").config()
 let cors=require("cors")
@@ -12,9 +13,17 @@ App.use(express.json())
 App.use("/admin-api",    adminRoute)
 
 
-App.listen(process.env.PORT || 8000,()=>{
-    console.log("Server Start",process.env.PORT);
+
+
+mongoose.connect(`mongodb://127.0.0.1:27017/${process.env.DBNAME}`)
+.then((res)=>{
+    App.listen(process.env.PORT || 8000,()=>{
+         console.log("Server Start",process.env.PORT);
     
+    })
 })
+
+
+
 
 //http://localhost:8000
