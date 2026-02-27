@@ -7,7 +7,7 @@ let colorRoute=express.Router()
 colorRoute.post('/add',  colorCreate)
 //http://localhost:8000/admin-api/color/view
 colorRoute.get('/view', colorView)
-colorRoute.delete('/delete', colorDelete)
+colorRoute.post('/delete', colorDelete)
 colorRoute.put('/update', colorUpdate)
 
 

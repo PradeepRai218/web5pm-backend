@@ -4,12 +4,15 @@ const colorSchema=mongoose.Schema(
     {
         name:{
             type:String,
-            required:true,
+            required:[true,"Please Fill The Color"],
+            minLength:[2,"Please Fill min two char..."],
+            match: [/^[a-zA-Z ]{2,15}$/,"Please Fill correct value "],
+          
           
         },
         code:{
             type:String,
-            required:true,
+            required:[true,"Please Fill The code"],
         },
         order:{
              type:Number,
