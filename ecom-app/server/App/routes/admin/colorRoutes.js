@@ -11,6 +11,6 @@ colorRoute.post('/delete', colorDelete)
 colorRoute.put('/update', colorUpdate)
 
 
-colorRoute.put('/change-status',colorChangeStatus)
+colorRoute.post('/change-status',colorChangeStatus)
 
 module.exports={colorRoute}

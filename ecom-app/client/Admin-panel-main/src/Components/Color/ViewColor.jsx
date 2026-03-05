@@ -12,9 +12,6 @@ export default function ViewColor() {
 
   const [selectedRecord, setSelectedRecord] = useState([]);
 
-
-
-
   let apiBaseUrl = import.meta.env.VITE_ABIBASEURL;
   const applyFilter = (e) => {
     e.preventDefault();
@@ -52,11 +49,24 @@ export default function ViewColor() {
 
   const changeStatus = () => {
     if (selectedRecord.length > 0) {
-      iziToast.success({
-        title: "Success",
-        message: "Status Change suces",
-        position: "topRight",
-      });
+      axios
+        .post(`${apiBaseUrl}color/change-status`, { ids: selectedRecord })
+        .then((res) => res.data)
+        .then((finalRes) => {
+          if (finalRes._status) {
+             getColors();
+            iziToast.success({
+              title: "Success",
+              message: "Status Change suces",
+              position: "topRight",
+            });
+
+            instance.hide({ transitionOut: "fadeOut" }, toast);
+
+            setSelectedRecord([]);
+           
+          }
+        });
 
       setSelectedRecord([]);
     } else {
@@ -85,28 +95,26 @@ export default function ViewColor() {
           [
             "<button><b>YES</b></button>",
             function (instance, toast) {
-
-              axios.post(`${apiBaseUrl}color/delete`,{ids:selectedRecord})
-              .then((res)=>res.data)
-              .then((finalRes)=>{
-                if(finalRes._status){
-                    
+              axios
+                .post(`${apiBaseUrl}color/delete`, { ids: selectedRecord })
+                .then((res) => res.data)
+                .then((finalRes) => {
+                  if (finalRes._status) {
                     iziToast.success({
                       title: "Deleted",
-                      message: "Selected records have been deleted successfully.",
+                      message:
+                        "Selected records have been deleted successfully.",
                       position: "topRight",
                     });
 
                     instance.hide({ transitionOut: "fadeOut" }, toast);
 
-                     setSelectedRecord([]);
-                     getColors()
-                }
-              })
+                    setSelectedRecord([]);
+                    getColors();
+                  }
+                });
 
               // ---- Perform Delete ----
-             
-
             },
             true,
           ],
@@ -141,34 +149,30 @@ export default function ViewColor() {
       });
   };
 
-  let getCheckValue=(e)=>{
-     let checkValue=e.target.value
-     if(e.target.checked){
-          setSelectedRecord([...selectedRecord,checkValue])
-     }
-    else{
-        setSelectedRecord( selectedRecord.filter((v)=>v!=checkValue)  )
+  let getCheckValue = (e) => {
+    let checkValue = e.target.value;
+    if (e.target.checked) {
+      setSelectedRecord([...selectedRecord, checkValue]);
+    } else {
+      setSelectedRecord(selectedRecord.filter((v) => v != checkValue));
     }
-    
-  }
+  };
 
-  let allCheck=(e)=>{
-    if(e.target.checked){
-       setSelectedRecord( data.map((obj)=>obj._id) )
-    }
-    else{
-      setSelectedRecord([])
+  let allCheck = (e) => {
+    if (e.target.checked) {
+      setSelectedRecord(data.map((obj) => obj._id));
+    } else {
+      setSelectedRecord([]);
     }
     // data.map((obj)=>obj._id) [ 69a01d9da9e7c3ed207a47e3' ]
-    
-  }
+  };
 
   useEffect(() => {
     getColors();
   }, []);
 
   console.log(selectedRecord);
-  
+
   return (
     <>
       <section className="w-full">
@@ -308,7 +312,7 @@ export default function ViewColor() {
                         name="deleteCheck"
                         id="purple-checkbox"
                         type="checkbox"
-                        checked={data.length==selectedRecord.length}
+                        checked={data.length == selectedRecord.length}
                         onChange={allCheck}
                         class="mr-2 w-4 h-4 cursor-pointer text-purple-600 bg-gray-100 border-gray-300 rounded focus:ring-purple-500"
                         value=""
@@ -335,7 +339,7 @@ export default function ViewColor() {
                               type="checkbox"
                               value={obj._id}
                               onChange={getCheckValue}
-                              checked={ selectedRecord.includes(obj._id) }
+                              checked={selectedRecord.includes(obj._id)}
                               className="w-4 h-4 text-purple-600 cursor-pointer"
                             />
                           </td>
