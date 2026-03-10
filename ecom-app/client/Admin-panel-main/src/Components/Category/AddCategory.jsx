@@ -1,5 +1,8 @@
+import axios from 'axios';
 import React, { useState } from 'react'
+import iziToast from "izitoast";
 import { MdOutlineDriveFolderUpload } from "react-icons/md";
+import { useNavigate } from 'react-router';
 export default function AddCategory() {
     let [errors, setErrors] = useState([]);
     let [SelectedImage, setSelectedImage] = useState("");
@@ -28,30 +31,40 @@ export default function AddCategory() {
         }
     };
 
+        let apiBaseUrl=import.meta.env.VITE_ABIBASEURL
+        //
+    let navigate=useNavigate()
     let formhandler = (event) => {
         event.preventDefault();
+        let myData=new FormData(event.target)
+        axios.post(`${apiBaseUrl}category/add`,myData)
+        .then((res)=>res.data)
+       .then((finalRes)=>{
+        console.log(finalRes); //Api Res
 
-        let form = event.target;
-        let fields = form.querySelectorAll('input , textarea')
+            if(finalRes._status){
 
-        let newErrors = [];
-
-        fields.forEach((field) => {
-            if (!field.value.trim()) {
-                newErrors.push(field.name);
+                 iziToast.success({
+                    title: "Success",
+                    message:finalRes._message ,
+                    position: "topRight",
+                });
+                setTimeout(()=>{
+                    navigate('/category/view')
+                },2000)
+                
             }
-        });
+            else{
+                 iziToast.error({
+                    title: "error",
+                    message:finalRes._message ,
+                    position: "topRight",
+                });
+            }
+        
+       })
 
-        if (!SelectedImage) {
-            newErrors.push("image");
-        }
-
-        newErrors = [...new Set(newErrors)];
-        setErrors(newErrors);
-
-        if (newErrors.length === 0) {
-            event.target.reset()
-        }
+        
     };
 
     return (
@@ -126,6 +139,7 @@ export default function AddCategory() {
                                     <input
                                         type="file"
                                         accept="image/*"
+                                        name='image'
                                         onChange={handleimagechange}
                                         className="absolute z-20 inset-0 opacity-0 cursor-pointer"
                                     />
