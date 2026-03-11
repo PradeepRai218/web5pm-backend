@@ -13,8 +13,8 @@ App.use(express.json())
 App.use("/admin-api",    adminRoute)
 
 App.use('/uploads/category',express.static("uploads/category"))
-App.use('/uploads/product',express.static("uploads/product"))
-App.use('/uploads/slider',express.static("uploads/slider"))
+App.use('/uploads/subcategory',express.static("uploads/subcategory"))
+
 
 
 mongoose.connect(`mongodb://127.0.0.1:27017/${process.env.DBNAME}`)

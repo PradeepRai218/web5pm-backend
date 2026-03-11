@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 
-const categorySchema=mongoose.Schema(
+const subcategorySchema=mongoose.Schema(
     {
-        name:{
+        name:{ //Topwear
             type:String,
             required:[true,"Please Fill The ccategory"],
             minLength:[2,"Please Fill min two char..."],
@@ -10,10 +10,13 @@ const categorySchema=mongoose.Schema(
           
           
         },
-        image:String,
-    
+        image:String, //Image Path
+        parentCategory:{
+            type:String, //69aff1e7e26ec931fbd1fc9f
+            ref:"category"
+        },
        
-        order:{
+        order:{ //1
              type:Number,
             required:true,
         },
@@ -37,6 +40,6 @@ const categorySchema=mongoose.Schema(
     }
 )
 
-let categoryModel=mongoose.model("category",categorySchema)
+let subcategoryModel=mongoose.model("subCategory",subcategorySchema)
 
-module.exports=categoryModel
+module.exports=subcategoryModel
