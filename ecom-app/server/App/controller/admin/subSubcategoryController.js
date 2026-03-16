@@ -1,8 +1,9 @@
 
 const categoryModel = require("../../model/categoryModels");
 const subcategoryModel = require("../../model/subcategoryModels");
+const subSubcategoryModel = require("../../model/subSubcategoryModels");
 
-let subcategoryCreate = async (req, res) => {
+let subSubcategoryCreate = async (req, res) => {
   console.log(req.body); //Form Data->Multer Add
 
   let insertObj = { ...req.body }; //{ name: 'men', order: '1',parentCategory:69b14013434c8872d0af46bc }
@@ -20,19 +21,19 @@ let subcategoryCreate = async (req, res) => {
 
     const regex = new RegExp(`^${name.trim()}$`, 'i');
 
-    let checkCategory = await subcategoryModel.findOne({ name: regex, deleted_at: null });
+    let checkCategory = await subSubcategoryModel.findOne({ name: regex, deleted_at: null });
     if (checkCategory) {
       let obj = {
         _status: false,
-        _message: "Sub Category Name Alredy Exist...",
+        _message: "Sub Sub Category Name Alredy Exist...",
       };
       res.send(obj);
     } else {
-      let Category = await subcategoryModel.insertOne(insertObj); //
+      let Category = await subSubcategoryModel.insertOne(insertObj); //
 
       let obj = {
         _status: true,
-        _message: "Sub Category Added",
+        _message: "Sub Sub Category Added",
         Category,
       };
       res.send(obj);
@@ -53,15 +54,15 @@ let subcategoryCreate = async (req, res) => {
   }
 };
 
-let subcategoryView = async (req, res) => {
+let subSubcategoryView = async (req, res) => {
   let filter = {
     deleted_at: null,
   };
-  let data = await subcategoryModel.find(filter).populate("parentCategory",'name');
+  let data = await subSubcategoryModel.find(filter).populate("parentCategory",'name');
   let obj = {
     _status: true,
-    _message: "category View ",
-    path:process.env.SUBCATEGORYPATH,
+    _message: "Sub Sub category View ",
+    path:process.env.SUBSUBCATEGORYPATH,
     data,
   };
   res.send(obj);
@@ -81,4 +82,21 @@ let getParentCategory=async (req,res)=>{
   };
   res.send(obj);
 }
-module.exports = { subcategoryCreate,subcategoryView,getParentCategory };
+
+let getSubCategory=async (req,res)=>{
+  let {id}=req.params
+  let filter = {
+    parentCategory:id,
+    deleted_at: null,
+    status:true,
+  };
+  let data = await subcategoryModel.find(filter).select('name');
+  let obj = {
+    _status: true,
+    _message: "Sub category View ",
+  
+    data,
+  };
+  res.send(obj);
+}
+module.exports = { subSubcategoryCreate,subSubcategoryView,getParentCategory,getSubCategory };

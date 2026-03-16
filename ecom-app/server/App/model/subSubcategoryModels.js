@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 
-const subcategorySchema=mongoose.Schema(
+const subSubcategorySchema=mongoose.Schema(
     {
-        name:{ //Topwear
+        name:{ //T-Shirts
             type:String,
             required:[true,"Please Fill The ccategory"],
             match: [/^[a-zA-Z ]{2,100}$/,"Please Fill correct value "],
@@ -11,8 +11,12 @@ const subcategorySchema=mongoose.Schema(
         },
         image:String, //Image Path
         parentCategory:{
-            type:String, //69aff1e7e26ec931fbd1fc9f
+            type:String, //69aff1e7e26ec931fbd1fc9f Men
             ref:"category"
+        },
+        subCategory:{
+            type:String, //69aff1e7e26ec931fbd1fc9f
+            ref:"subCategory"
         },
        
         order:{ //1
@@ -39,6 +43,6 @@ const subcategorySchema=mongoose.Schema(
     }
 )
 
-let subcategoryModel=mongoose.model("subCategory",subcategorySchema)
+let subSubcategoryModel=mongoose.model("subSubCategory",subSubcategorySchema)
 
-module.exports=subcategoryModel
+module.exports=subSubcategoryModel

@@ -1,8 +1,8 @@
 let express=require("express")
-let subcategoryRoutes=express.Router()
+let subSubcategoryRoutes=express.Router()
 
 const multer  = require('multer')
-const { subcategoryCreate, subcategoryView, getParentCategory } = require("../../controller/admin/subcategoryController")
+const { subSubcategoryCreate, subSubcategoryView, getParentCategory, getSubCategory } = require("../../controller/admin/subSubcategoryController")
 // const upload = multer({ dest: 'uploads/category' }) //half Control Access
 
 //full control on storing files to disk.
@@ -12,7 +12,7 @@ let storage =multer.diskStorage(
         destination:function( req,file,cb  ){
           
             
-            cb(null,"uploads/subcategory")
+            cb(null,"uploads/subsubcategory")
         },
         filename:function(req,file,cb){
             cb(null, Date.now()+file.originalname)
@@ -28,12 +28,10 @@ let upload=multer({storage:storage})
 //upload.field(  { } )
 
 
-subcategoryRoutes.post("/add", upload.single('image'),subcategoryCreate)
+subSubcategoryRoutes.post("/add", upload.single('image'),subSubcategoryCreate)
 
-subcategoryRoutes.get("/view", subcategoryView)
+subSubcategoryRoutes.get("/view", subSubcategoryView)
 
-subcategoryRoutes.get('/parent',getParentCategory)
-
-
-
-module.exports={subcategoryRoutes}
+subSubcategoryRoutes.get("/parent", getParentCategory)
+subSubcategoryRoutes.get("/subcategory/:id", getSubCategory)
+module.exports={subSubcategoryRoutes}

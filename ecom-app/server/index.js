@@ -14,6 +14,8 @@ App.use("/admin-api",    adminRoute)
 
 App.use('/uploads/category',express.static("uploads/category"))
 App.use('/uploads/subcategory',express.static("uploads/subcategory"))
+App.use('/uploads/subsubcategory',express.static("uploads/subsubcategory"))
+
 
 
 
