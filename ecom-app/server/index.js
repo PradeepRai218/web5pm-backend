@@ -2,7 +2,8 @@ const mongoose = require('mongoose');
 let express=require("express")
 require("dotenv").config()
 let cors=require("cors")
-const { adminRoute } = require("./App/routes/adminRoutes")
+const { adminRoute } = require("./App/routes/adminRoutes");
+const { webRoute } = require('./App/routes/webRoutes');
 let App=express()
 
 
@@ -17,6 +18,8 @@ App.use('/uploads/subcategory',express.static("uploads/subcategory"))
 App.use('/uploads/subsubcategory',express.static("uploads/subsubcategory"))
 
 
+//Website
+App.use("/web-api",    webRoute)
 
 
 mongoose.connect(`mongodb://127.0.0.1:27017/${process.env.DBNAME}`)

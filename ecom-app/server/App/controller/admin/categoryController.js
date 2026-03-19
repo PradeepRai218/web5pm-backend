@@ -1,9 +1,14 @@
+const { createSlug } = require("../../config/helper");
 const categoryModel = require("../../model/categoryModels");
 
 let categoryCreate = async (req, res) => {
   console.log(req.body); //Form Data->Multer Add
 
   let insertObj = { ...req.body }; //{ name: 'men', order: '1' }
+   let { name } = req.body; //men
+   let slug=createSlug(name)
+
+   insertObj['slug']=slug
 
   if (req.file) {
     if (req.file.filename) {
@@ -13,7 +18,7 @@ let categoryCreate = async (req, res) => {
   //{ name: 'men', order: '1' ,image:'1773052709653MV Banner.webp'}
 
   try {
-    let { name } = req.body; //men
+   
     // "green"
 
     const regex = new RegExp(`^${name.trim()}$`, 'i');
