@@ -1,4 +1,7 @@
 var slugify = require("slugify");
+const nodemailer = require("nodemailer");
+
+
 let createSlug = (title) => {
   return slugify(title, {
     replacement: "-", // replace spaces with replacement character, defaults to `-`
@@ -10,4 +13,15 @@ let createSlug = (title) => {
   });
 };
 
-module.exports={createSlug}
+const transporter = nodemailer.createTransport({
+  host: "smtp.gmail.com",
+  port: 587,
+  secure: false, // Use true for port 465, false for port 587
+  auth: {
+    user: "pradeep.9997@gmail.com",
+    pass: "krynyyvkbsiuowsc",
+  },
+});
+
+
+module.exports={createSlug,transporter}

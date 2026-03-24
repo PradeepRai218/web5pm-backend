@@ -1,0 +1,25 @@
+import { createSlice } from '@reduxjs/toolkit'
+import Cookies from 'js-cookie'
+
+export const loginSlice = createSlice({
+  name: 'auth',
+  initialState:{
+    token:  Cookies.get('token') || null,
+    
+  },
+  reducers: {
+    setToken:(state,action)=>{
+        state.token=action.payload
+        Cookies.set('token', state.token)
+    },
+    logOut:(state)=>{
+        console.log("Hello");
+        state.token=null
+        Cookies.remove('token')
+    }
+  },
+})
+
+export const { setToken,logOut } = loginSlice.actions
+
+export default loginSlice.reducer
