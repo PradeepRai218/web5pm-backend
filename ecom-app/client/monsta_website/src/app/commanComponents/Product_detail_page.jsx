@@ -1,5 +1,5 @@
 "use client"
-import React from 'react'
+import React, { useState } from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
 import { PiGreaterThanThin } from "react-icons/pi";
 import "./Product_detail_page.css"
@@ -11,8 +11,11 @@ import Bestselling from './Bestselling';
 // import Bestselling from './Bestselling';
 
 
-export default function Product_detail_page() {
- 
+export default function Product_detail_page({productDetails}) {
+    
+      let [path, setPath] = useState(productDetails.STATICPATH ?? "");
+      let [product, setProduct] = useState(productDetails.data ?? null);
+
     var settings = {
         dots: false,
         infinite: true,
@@ -48,7 +51,9 @@ export default function Product_detail_page() {
     return (
         <section  >
             <Container className='my-5 Product_detail_pageDiv'  >
-                <h1 className='text-center fw-bold '>Yuvi sheesham wood sofa set </h1>
+                <h1 className='text-center fw-bold '>
+                    {product.name}
+                 </h1>
                 <ul className='border-bottom pb-4 d-flex  justify-content-center coloreGray '>
                     <li>Home <span> <PiGreaterThanThin className='arrowDiv' /> </span> </li>
                     <li>Side and End Tables <span> <PiGreaterThanThin className='arrowDiv' /> </span> </li>

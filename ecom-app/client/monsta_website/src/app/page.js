@@ -1,15 +1,20 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+
 import Index from "./homePageComponents/Index";
+import { getProductbyType } from "./services/homeServices";
 
 
 
 
 
-export default function Home() {
+export default async  function Home() {
+
+   let data=await getProductbyType(1)
+  
+   
+
   return (
       <>
-      <Index/>
+      <Index  productData={data} />
       </>
   );
 }

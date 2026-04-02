@@ -18,6 +18,7 @@ import AddSubSubCategory from './Components/SubSubCategory/AddSubSubCategory'
 import ViewSubSubCategory from './Components/SubSubCategory/ViewSubSubCategory'
 import AddProduct from './Components/Product/AddProduct'
 import ViewProducts from './Components/Product/ViewProducts'
+import DetailProduct from './Components/Product/DetailProduct'
 import AddTestimonial from './Components/Testimonial/AddTestimonial'
 import ViewTestimonial from './Components/Testimonial/ViewTestimonial'
 import AddWhyChooseUs from './Components/WhyChooseUs/AddWhyChooseUs'
@@ -52,8 +53,9 @@ createRoot(document.getElementById('root')).render(
           <Route path='view' element={<ViewSubSubCategory />} />
         </Route>
         <Route path='product'>
-          <Route path='add' element={<AddProduct />} />
+          <Route path='add/:slug?' element={<AddProduct />} />
           <Route path='view' element={<ViewProducts />} />
+          <Route path='view/:slug' element={<DetailProduct />} />
         </Route>
         <Route path='testimonial'>
           <Route path='add' element={<AddTestimonial />} />

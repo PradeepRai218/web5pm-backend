@@ -247,10 +247,27 @@ let resetPassword=async (req,res)=>{
   res.send("Hello")
 }
 
+let getuserData=async (req,res)=>{
+  let token = req.headers.authorization.split(" ")[1];
+
+  let deCode = jwt.decode(token, process.env.TOKENKEY);
+  let { userId } = deCode;
+
+  //userDataGet
+  let userData = await userModel.findOne({ _id: userId });
+  let obj={
+      _status:true,
+      userData
+  }
+  res.send(obj)
+
+
+}
+
 // let s="welcome to ws"
 
 // let l=s.split(" ")//[ "welcome","to","ws" ]
 
 // let lastValue=l[l.length-1]
 
-module.exports = { createUser, login, changePassword, forgotPassword,resetPassword };
+module.exports = { createUser, login, changePassword, forgotPassword,resetPassword,getuserData };

@@ -1,6 +1,8 @@
 var slugify = require("slugify");
 const nodemailer = require("nodemailer");
-
+const adminModel = require("../model/adminModel");
+const saltRounds = 10;
+const bcrypt = require("bcrypt");
 
 let createSlug = (title) => {
   return slugify(title, {
@@ -24,4 +26,21 @@ const transporter = nodemailer.createTransport({
 });
 
 
-module.exports={createSlug,transporter}
+let adminCreate=async ()=>{
+
+  let adminData=await adminModel.find()
+  const hash = bcrypt.hashSync("pradeep123", saltRounds);
+  if(adminData.length===0){
+      adminModel.insertOne(
+      {
+        email:"pradeep.9997@gmail.com",
+        password: hash
+
+      }
+    )
+
+  }
+  
+}
+
+module.exports={createSlug,transporter,adminCreate}

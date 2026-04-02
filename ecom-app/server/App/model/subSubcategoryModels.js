@@ -5,7 +5,7 @@ const subSubcategorySchema=mongoose.Schema(
         name:{ //T-Shirts
             type:String,
             required:[true,"Please Fill The ccategory"],
-            match: [/^[a-zA-Z ]{2,100}$/,"Please Fill correct value "],
+          
           
           
         },

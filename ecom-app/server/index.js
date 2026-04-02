@@ -4,6 +4,7 @@ require("dotenv").config()
 let cors=require("cors")
 const { adminRoute } = require("./App/routes/adminRoutes");
 const { webRoute } = require('./App/routes/webRoutes');
+const { adminCreate } = require('./App/config/helper');
 let App=express()
 
 
@@ -17,6 +18,8 @@ App.use('/uploads/category',express.static("uploads/category"))
 App.use('/uploads/subcategory',express.static("uploads/subcategory"))
 App.use('/uploads/subsubcategory',express.static("uploads/subsubcategory"))
 
+App.use('/uploads/product',express.static("uploads/product"))
+
 
 //Website
 App.use("/web-api",    webRoute)
@@ -24,8 +27,9 @@ App.use("/web-api",    webRoute)
 
 mongoose.connect(`mongodb://127.0.0.1:27017/${process.env.DBNAME}`)
 .then((res)=>{
-    App.listen(process.env.PORT || 8000,()=>{
+    App.listen(process.env.PORT || 8000,async ()=>{
          console.log("Server Start",process.env.PORT);
+         await adminCreate()
     
     })
 })

@@ -1,12 +1,74 @@
 'use client'
+import axios from 'axios';
 import Link from 'next/link';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Col, Container, Form, Row } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
 
 export default function DashboardPage() {
     const [activeTab, setActiveTab] = useState('dashboard');
     const [selectedTitle, setSelectedTitle] = useState("Mr.");
 
+    let [userData,setUserData]=useState(null)
+
+    let token=useSelector((store)=>store.authStore.token)
+    let apiBaseUrl=process.env.NEXT_PUBLIC_APIBASEPATH
+   
+
+    let changePassword=(e)=>{
+
+        let obj={
+            oldPassword:e.target.oldPassword.value,
+            newPassword:e.target.newPassword.value,
+            confirmPassword:e.target.confirmPassword.value
+        }
+       
+        
+        e.preventDefault()
+
+        axios.post(`${apiBaseUrl}user/change-password`,
+            obj,
+            {
+                headers:{
+                    Authorization:`Bearer ${token}`
+                }
+            }
+
+        )
+        .then(res=>res.data)
+        .then((finalRes)=>{
+            if(finalRes._status){
+                alert(finalRes._message)
+            }
+            else{
+                 alert(finalRes._message)   
+            }
+        })
+       
+    
+    }
+
+
+    let getuserData=()=>{
+        axios.post(`${apiBaseUrl}user/get-data`,
+            {},
+            {
+                headers:{
+                    Authorization:`Bearer ${token}`
+                }
+            }
+
+        )
+        .then((res)=>res.data)
+        .then((finalRes)=>{
+            setUserData(finalRes.userData);
+            
+        })
+    }
+
+    useEffect(()=>{
+        getuserData()
+    },[token])
     return (
         <>
             <Container fluid className='breadcrumbs_area'>
@@ -279,9 +341,10 @@ export default function DashboardPage() {
                                                                 <input
                                                                     type="radio"
                                                                     value="Mr."
-                                                                    name="title"
-                                                                    checked={selectedTitle === "Mr."}
-                                                                    onChange={(e) => setSelectedTitle(e.target.value)}
+                                                                    name="gender"
+                                                                    defaultValue={1}
+                                                                    checked={userData?.gender === 1}
+                                                                  
                                                                 />
                                                                 Mr.
                                                             </span>
@@ -290,8 +353,9 @@ export default function DashboardPage() {
                                                                 <input
                                                                     type="radio"
                                                                     value="Mrs."
-                                                                    name="title"
-                                                                    checked={selectedTitle === "Mrs."}
+                                                                   name="gender"
+                                                                    defaultValue={2}
+                                                                     checked={userData?.gender === 2}
                                                                     onChange={(e) => setSelectedTitle(e.target.value)}
                                                                 />
                                                                 Mrs.
@@ -302,28 +366,28 @@ export default function DashboardPage() {
                                                     <div className="col-xl-12">
                                                         <div className="form-group has-feedback">
                                                             <label htmlFor="name">Name*</label>
-                                                            <input type="text" className="form-control" id="name" name="name" data-bv-field="name" />
+                                                            <input type="text" className="form-control" defaultValue={ userData?.name }  id="name" name="name" data-bv-field="name" />
                                                         </div>
                                                     </div>
 
                                                     <div className="col-xl-12">
                                                         <div className="form-group has-feedback">
                                                             <label htmlFor="name">Email*</label>
-                                                            <input type="text" className="form-control" id="email" name="email" placeholdere="sultankhan.wscube@gmail.com" readOnly="readOnly" data-bv-field="email" />
+                                                            <input type="text" readOnly defaultValue={ userData?.email } className="form-control" id="email" name="email" placeholdere="sultankhan.wscube@gmail.com"  data-bv-field="email" />
                                                         </div>
                                                     </div>
 
                                                     <div className="col-xl-12">
                                                         <div className="form-group has-feedback">
                                                             <label htmlFor="name">Mobile Number*</label>
-                                                            <input type="text" className="form-control numeric" id="mobile_number" maxLength="15" name="mobile_number" data-bv-field="mobile_number" />
+                                                            <input type="text" defaultValue={ userData?.phone }  className="form-control numeric" id="mobile_number" maxLength="15" name="mobile_number" data-bv-field="mobile_number" />
                                                         </div>
                                                     </div>
 
                                                     <div className="col-xl-12">
                                                         <div className="form-group has-feedback">
                                                             <label htmlFor="name">Address*</label>
-                                                            <input type="text" className="form-control" name="address" id="address"  data-bv-field="address" />
+                                                            <input type="text" className="form-control" name="address" id="address"  defaultValue={ userData?.address }   data-bv-field="address" />
                                                         </div>
                                                     </div>
 
@@ -346,16 +410,16 @@ export default function DashboardPage() {
                                 <div className="login">
                                     <div className="account_form login_form_container">
                                         <div className="account_login_form">
-                                        <form method="POST" acceptCharset="UTF-8" id="change_password" className="bv-form" autoComplete="off" noValidate="noValidate">
+                                        <form onSubmit={changePassword} method="POST" acceptCharset="UTF-8" id="change_password" className="bv-form" autoComplete="off" noValidate="noValidate">
 
                                             <div className="form-group has-feedback">
                                                 <label>Current Password</label>
-                                                <input type="password" className="form-control" name="currentpassword" id="currentpassword" data-bv-field="currentpassword"/>
+                                                <input type="password" className="form-control" name="oldPassword" id="currentpassword" data-bv-field="currentpassword"/>
                                             </div>
 
                                             <div className="form-group has-feedback">
                                                 <label>New Password</label>
-                                                <input type="password" className="form-control" name="password" id="password" data-bv-field="password" />
+                                                <input type="password" className="form-control" name="newPassword" id="password" data-bv-field="password" />
                                             </div>
 
                                             <div className="form-group has-feedback">

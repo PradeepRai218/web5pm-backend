@@ -2,22 +2,12 @@ let express=require("express")
 let categoryRoutes=express.Router()
 const { categoryCreate, categoryView } = require("../../controller/admin/categoryController")
 const multer  = require('multer')
+const { fileUplaod } = require("../../middleware/fileUpload")
 // const upload = multer({ dest: 'uploads/category' }) //half Control Access
 
 //full control on storing files to disk.
 
-let storage =multer.diskStorage(
-    {
-        destination:function( req,file,cb  ){
-          
-            
-            cb(null,"uploads/category")
-        },
-        filename:function(req,file,cb){
-            cb(null, Date.now()+file.originalname)
-        }
-    }
-)
+let storage =fileUplaod("category")
 
 let upload=multer({storage:storage})
 
