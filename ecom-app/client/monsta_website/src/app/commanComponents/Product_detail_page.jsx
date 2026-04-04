@@ -64,7 +64,7 @@ export default function Product_detail_page({productDetails}) {
                 <Row xs={1} md={2} className='pt-4' >
                     <Col>
                         <div className=''>
-                            <img src='https://wscubetech.co/Assignments/furniture/storage/app/public/uploads/images/products/1663411513681Group%201.jpg' className='img-fluid' />
+                            <img src={path+product.image} className='img-fluid' />
                         </div>
 
 
@@ -73,35 +73,28 @@ export default function Product_detail_page({productDetails}) {
                             <div className='next_arrow'> <FaAngleRight />  </div>
                             <Slider {...settings} className='sildeSider' >
 
-                                <div className='p-2' >
-                                    <img className='img-fluid' src='https://wscubetech.co/Assignments/furniture/storage/app/public/uploads/images/products/1663411513681Group%201.jpg' />
-                                </div>
-                                <div className='p-2'>
-                                    <img className='img-fluid' src='https://wscubetech.co/Assignments/furniture/storage/app/public/uploads/images/products/1663411513681Group%201.jpg' />
-                                </div>
-                                <div className='p-2'>
-                                    <img className='img-fluid' src='https://wscubetech.co/Assignments/furniture/storage/app/public/uploads/images/products/1663411513681Group%201.jpg' />
-                                </div>
-                                <div className='p-2'>
-                                    <img className='img-fluid' src='https://wscubetech.co/Assignments/furniture/storage/app/public/uploads/images/products/1663411513681Group%201.jpg' />
-                                </div>
-                                <div className='p-2'>
-                                    <img className='img-fluid' src='https://wscubetech.co/Assignments/furniture/storage/app/public/uploads/images/products/1663411513681Group%201.jpg' />
-                                </div>
-                                <div className='p-2'>
-                                    <img className='img-fluid' src='https://wscubetech.co/Assignments/furniture/storage/app/public/uploads/images/products/1663411513681Group%201.jpg' />
-                                </div>
+                                  {
+                                    product.gallery.map((item, index) => {
+                                        return (
+                                           <div className='p-2' >
+                                                <img src={path+item} className='img-fluid' />
+                                            </div>
+                                        )
+                                    })
+                                }
+
+                                
                             </Slider>
                         </div>
                     </Col>
                     <Col>
-                        <h3 className='pt-4 pt-md-0 ' >Yuvi sheesham wood sofa set</h3>
+                        <h3 className='pt-4 pt-md-0 ' > {product.name}</h3>
                         <div className="product_price">
-                            <span className="old_price">Rs. 10,000</span>
-                            <span className="current_price">Rs. 7,600</span>
+                            <span className="old_price">Rs.  {product.price}</span>
+                            <span className="current_price">Rs.  {product.ActualPrice}</span>
                         </div>
                         <div className="product_desc">
-                            <p>The product includes a 12 month warranty against any manufacturing defects and issues with the materials that have been used.</p>
+                            <p> {product.shortDescription}</p>
                         </div>
 
                         <button className="button" type="submit">add to cart</button>

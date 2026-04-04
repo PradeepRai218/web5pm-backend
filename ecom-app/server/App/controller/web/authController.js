@@ -78,10 +78,10 @@ let login = async (req, res) => {
 
 let changePassword = async (req, res) => {
   let { oldPassword, newPassword } = req.body; //pradeep123456
-  let token = req.headers.authorization.split(" ")[1];
+  // let token = req.headers.authorization.split(" ")[1];
 
-  let deCode = jwt.decode(token, process.env.TOKENKEY);
-  let { userId } = deCode;
+  // let deCode = jwt.decode(token, process.env.TOKENKEY);
+  let { userId } = req.body;
 
   //userDataGet
   let userData = await userModel.findOne({ _id: userId });
